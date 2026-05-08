@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ prefs.display_name }} · eventbot{% endblock %}
+{% block nav_links %}
+  <a href="/u/{{ prefs.slug }}/preferences">⚙️ Preferences</a>
+  <a href="/u/{{ prefs.slug }}/history">📋 History</a>
+{% endblock %}
+{% block content %}
+<h1>{{ prefs.display_name }}</h1>
+<p class="subtitle">{{ prefs.location }} · {{ prefs.schedule.frequency }} digest</p>
+
+<div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+  <form class="inline" method="post" action="/u/{{ prefs.slug }}/run">
+    <button class="btn btn-primary btn-sm" type="submit">▶ Run now</button>
+  </form>
+  <a href="/u/{{ prefs.slug }}/preferences" class="btn btn-sm" style="background:#e8e8ed;color:#1d1d1f">⚙️ Preferences</a>
+</div>
+
+{% if events %}
+  <div class="section-header">Your picks</div>
+  {% for ev in events %}
+  <div class="card">
+    <h3><a href="{{ ev.url }}" target="_blank" rel="noopener">{{ ev.title }}</a></h3>
+    <div class="meta">📍 {{ ev.venue }} &nbsp;·&nbsp; 📅 {{ ev.event_date }}</div>
+    {% if ev.description %}<p class="desc">{{ ev.description }}</p>{% endif %}
+    {% if ev.relevance_notes %}<p class="note">{{ ev.relevance_notes }}</p>{% endif %}
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <form class="inline" method="post" action="/u/{{ prefs.slug }}/feedback/{{ ev.id }}/1">
+        <button class="btn btn-sm btn-up{% if ev.feedback == 1 %} active{% endif %}" type="submit">👍</button>
+      </form>
+      <form class="inline" method="post" action="/u/{{ prefs.slug }}/feedback/{{ ev.id }}/-1">
+        <button class="btn btn-sm btn-down{% if ev.feedback == -1 %} active{% endif %}" type="submit">👎</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="empty">No events yet — hit <strong>Run now</strong> to discover events.</div>
+{% endif %}
+
+{% if household %}
+  <div class="section-header">🏠 Your household might enjoy</div>
+  {% for ev in household %}
+  <div class="card">
+    <h3>
+      <a href="{{ ev.url }}" target="_blank" rel="noopener">{{ ev.title }}</a>
+      {% for name in ev.who %}<span class="tag tag-green">{{ name }}</span>{% endfor %}
+    </h3>
+    <div class="meta">📍 {{ ev.venue }} &nbsp;·&nbsp; 📅 {{ ev.event_date }}</div>
+    {% if ev.description %}<p class="desc">{{ ev.description }}</p>{% endif %}
+  </div>
+  {% endfor %}
+  <a href="/household/" class="btn btn-sm" style="background:#e6f4ea;color:#137333">See all household picks →</a>
+{% endif %}
+{% endblock %}

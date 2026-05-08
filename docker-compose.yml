@@ -1,0 +1,12 @@
+services:
+  eventbot:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${DATA_PATH:-./data}:/data
+    env_file:
+      - ${DATA_PATH:-./data}/.env
+    environment:
+      - DATA_DIR=/data
