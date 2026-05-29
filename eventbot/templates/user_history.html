@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}History · {{ prefs.display_name }}{% endblock %}
+{% block nav_links %}
+  <a href="/u/{{ prefs.slug }}/">← Back</a>
+{% endblock %}
+{% block content %}
+<h1>Run History</h1>
+<p class="subtitle">{{ prefs.display_name }}</p>
+
+{% for run in runs %}
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <div style="font-weight:600">{{ run.started_at.strftime("%Y-%m-%d %H:%M") }} UTC</div>
+      {% if run.error %}
+        <div style="color:#c5221f;font-size:0.85em;margin-top:4px">⚠ {{ run.error }}</div>
+      {% else %}
+        <div class="meta">{{ run.event_count }} events found</div>
+      {% endif %}
+    </div>
+    <div style="font-size:0.82em;color:#888">
+      {% if run.finished_at %}
+        {{ ((run.finished_at - run.started_at).seconds) }}s
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="empty">No runs yet.</div>
+{% endfor %}
+{% endblock %}

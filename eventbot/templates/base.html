@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>{% block title %}eventbot{% endblock %}</title>
+<link rel="manifest" href="/manifest.json">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; background: #f5f5f7; color: #1d1d1f; }
+  nav { background: #1a1a2e; color: #fff; padding: 12px 20px; display: flex; align-items: center; gap: 16px; }
+  nav a { color: #aad4f5; text-decoration: none; font-size: 0.9em; }
+  nav .brand { font-weight: 700; font-size: 1.1em; color: #fff; text-decoration: none; margin-right: auto; }
+  main { max-width: 680px; margin: 24px auto; padding: 0 16px; }
+  h1 { font-size: 1.5em; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+  .card { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .card h3 { margin: 0 0 4px; font-size: 1.05em; }
+  .card h3 a { color: #1a1a2e; text-decoration: none; }
+  .card h3 a:hover { text-decoration: underline; }
+  .meta { font-size: 0.82em; color: #888; margin-bottom: 8px; }
+  .desc { font-size: 0.9em; color: #444; margin: 6px 0; }
+  .note { font-size: 0.82em; color: #777; font-style: italic; }
+  .btn { display: inline-block; padding: 8px 16px; border-radius: 8px; font-size: 0.9em; font-weight: 600; cursor: pointer; text-decoration: none; border: none; }
+  .btn-primary { background: #1a1a2e; color: #fff; }
+  .btn-primary:hover { background: #2d2d4e; }
+  .btn-sm { padding: 4px 10px; font-size: 0.82em; border-radius: 6px; }
+  .btn-up { background: #e6f4ea; color: #137333; }
+  .btn-down { background: #fce8e6; color: #c5221f; }
+  .btn-up.active { background: #137333; color: #fff; }
+  .btn-down.active { background: #c5221f; color: #fff; }
+  .tag { display: inline-block; background: #e8f0fe; color: #1a73e8; border-radius: 20px; padding: 2px 10px; font-size: 0.78em; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+  .tag-green { background: #e6f4ea; color: #137333; }
+  form.inline { display: inline; }
+  .section-header { font-size: 1em; font-weight: 700; color: #555; margin: 28px 0 12px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+  .empty { color: #888; font-size: 0.9em; text-align: center; padding: 32px 0; }
+</style>
+{% block head %}{% endblock %}
+</head>
+<body>
+<nav>
+  <a class="brand" href="/">🎟 eventbot</a>
+  {% block nav_links %}{% endblock %}
+  <a href="/household/">🏠 Household</a>
+</nav>
+<main>
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

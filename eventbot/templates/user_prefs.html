@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Preferences · {{ prefs.display_name }}{% endblock %}
+{% block nav_links %}
+  <a href="/u/{{ prefs.slug }}/">← Back</a>
+{% endblock %}
+{% block content %}
+<h1>Preferences</h1>
+<p class="subtitle">{{ prefs.display_name }}</p>
+
+<form method="post" action="/u/{{ prefs.slug }}/preferences">
+  <div class="card">
+    <h3 style="margin-top:0">Profile</h3>
+    <label style="display:block;margin-bottom:12px">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Display name</span>
+      <input name="display_name" value="{{ prefs.display_name }}" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    </label>
+    <label style="display:block;margin-bottom:12px">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Email</span>
+      <input name="email" type="email" value="{{ prefs.email }}" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    </label>
+    <label style="display:block;margin-bottom:12px">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Location (city or region)</span>
+      <input name="location" value="{{ prefs.location }}" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    </label>
+    <label style="display:block">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Timezone</span>
+      <input name="timezone" value="{{ prefs.timezone }}" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    </label>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Interests &amp; Blocklist</h3>
+    <label style="display:block;margin-bottom:12px">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Interests (one per line)</span>
+      <textarea name="interests" rows="6" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;font-size:0.9em">{{ prefs.interests | join('\n') }}</textarea>
+    </label>
+    <label style="display:block">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Blocklist — never recommend (one per line)</span>
+      <textarea name="blocklist" rows="3" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;font-size:0.9em">{{ prefs.blocklist | join('\n') }}</textarea>
+    </label>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0">Schedule</h3>
+    <label style="display:block;margin-bottom:12px">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Frequency</span>
+      <select name="frequency" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+        {% for f in ["daily", "weekly", "monthly"] %}
+        <option value="{{ f }}"{% if prefs.schedule.frequency == f %} selected{% endif %}>{{ f | capitalize }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label style="display:block;margin-bottom:12px">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Day of week (weekly)</span>
+      <select name="day_of_week" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+        {% for d in ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"] %}
+        <option value="{{ d }}"{% if prefs.schedule.day_of_week == d %} selected{% endif %}>{{ d | capitalize }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label style="display:block;margin-bottom:12px">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Day of month (monthly)</span>
+      <input name="day_of_month" type="number" min="1" max="28" value="{{ prefs.schedule.day_of_month }}" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    </label>
+    <label style="display:block">
+      <span style="font-size:0.85em;color:#555;display:block;margin-bottom:4px">Hour to run (0–23, local time)</span>
+      <input name="hour" type="number" min="0" max="23" value="{{ prefs.schedule.hour }}" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
+    </label>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Save preferences</button>
+</form>
+{% endblock %}

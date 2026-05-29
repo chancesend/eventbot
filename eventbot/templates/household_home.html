@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Household · eventbot{% endblock %}
+{% block content %}
+<h1>🏠 Household Picks</h1>
+<p class="subtitle">Events your household could enjoy together</p>
+
+<div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+  <form class="inline" method="post" action="/household/run">
+    <button class="btn btn-primary btn-sm" type="submit">▶ Run household search</button>
+  </form>
+  <form class="inline" method="post" action="/household/synthesize">
+    <button class="btn btn-sm" style="background:#e8e8ed;color:#1d1d1f" type="submit">⚡ Re-sync from user prefs</button>
+  </form>
+</div>
+
+{% if events %}
+  {% for ev in events %}
+  <div class="card">
+    <h3>
+      <a href="{{ ev.url }}" target="_blank" rel="noopener">{{ ev.title }}</a>
+      {% for name in ev.who %}<span class="tag tag-green">{{ name }}</span>{% endfor %}
+    </h3>
+    <div class="meta">📍 {{ ev.venue }} &nbsp;·&nbsp; 📅 {{ ev.event_date }}</div>
+    {% if ev.description %}<p class="desc">{{ ev.description }}</p>{% endif %}
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="empty">No shared events yet.<br>Run a household search or wait for individual runs to find overlapping picks.</div>
+{% endif %}
+{% endblock %}
